@@ -1,14 +1,18 @@
 shared_examples 'FreeBSD' do
-  let(:facts) {{ :osfamily => "FreeBSD" }}
+  let(:facts) {{
+    :os => {
+      :family => 'FreeBSD',
+      :release => { :major => '9' }
+    }
+  }}
 
   describe "when using default class parameters" do
     let(:params) {{ }}
 
-    it { should create_class('timezone') }
-    it { should contain_class('timezone::params') }
+    it { is_expected.to create_class('timezone') }
 
     it do
-      should contain_file('/etc/localtime').with({
+      is_expected.to contain_file('/etc/localtime').with({
         :ensure => 'file',
         :source => 'file:///usr/share/zoneinfo/Etc/UTC',
       })
@@ -17,7 +21,7 @@ shared_examples 'FreeBSD' do
     context 'when timezone => "Europe/Berlin"' do
       let(:params) {{ :timezone => "Europe/Berlin" }}
 
-      it { should contain_file('/etc/localtime').with_source('file:///usr/share/zoneinfo/Europe/Berlin') }
+      it { is_expected.to contain_file('/etc/localtime').with_source('file:///usr/share/zoneinfo/Europe/Berlin') }
     end
 
     context 'when autoupgrade => true' do
@@ -26,7 +30,7 @@ shared_examples 'FreeBSD' do
 
     context 'when ensure => absent' do
       let(:params) {{ :ensure => 'absent' }}
-      it { should contain_file('/etc/localtime').with_ensure('absent') }
+      it { is_expected.to contain_file('/etc/localtime').with_ensure('absent') }
     end
 
     include_examples 'validate parameters'
