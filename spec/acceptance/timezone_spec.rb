@@ -2,7 +2,7 @@ require 'spec_helper_acceptance'
 
 describe 'timezone class' do
   describe 'running puppet code' do
-    it 'should work with no errors' do
+    it 'works with no errors' do
       pp = <<-EOS
         class { '::timezone': }
       EOS
