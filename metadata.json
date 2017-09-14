@@ -33,7 +33,7 @@
   ],
   "name": "simp-timezone",
   "version": "4.0.0",
-  "source": "git://github.com/saz/puppet-timezone",
+  "source": "git://github.com/simp/pupmod-simp-timezone",
   "author": "SIMP Team",
   "license": "Apache-2.0",
   "summary": "Manage timezone settings via Puppet",
