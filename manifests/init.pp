@@ -95,12 +95,12 @@ class timezone (
     file { $timezone_file:
       ensure  => $timezone_ensure,
       content => template($timezone_file_template),
-      notify  => $notify_services
+      notify  => $notify_services,
     }
     if $ensure == 'present' and $timezone_update {
       $e_command = $facts['os']['family'] ? {
         /(Suse|Archlinux)/ => "${timezone_update} ${timezone}",
-        default            => $timezone_update
+        default            => $timezone_update,
       }
       exec { 'update_timezone':
         command     => $e_command,
@@ -114,7 +114,7 @@ class timezone (
   file { $localtime_file:
     ensure => $localtime_ensure,
     source => "file://${zoneinfo_dir}/${timezone}",
-    notify => $notify_services
+    notify => $notify_services,
   }
 
 }
