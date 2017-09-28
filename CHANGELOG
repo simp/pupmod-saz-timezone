@@ -1,0 +1,2 @@
+* Thu Sep 28 2017 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.0.0-0
+- Initial fork of saz-timezone with Puppet 4+ support
