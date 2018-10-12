@@ -1,5 +1,26 @@
 # puppet-timezone [![Build Status](https://secure.travis-ci.org/saz/puppet-timezone.png)](http://travis-ci.org/saz/puppet-timezone)
 
+----
+>
+> THIS IS A FORK OF THE MODULE AND WILL REVERT TO THE ORIGINAL MODULE ONCE THE
+> SIMP PACKAGING SYSTEM HAS BEEN UPDATED.
+>
+> The fork includes the following minor changes that are related to publishing
+> and maintenance:
+>   - .travis.yml   => Modified to work with the SIMP publishing process
+>   - CHANGELOG     => Added to work with the SIMP RPM building
+>   - README.md     => These modifications
+>   - Rakefile      => Modified with the standard SIMP rake tasks
+>   - metadata.json => Modified namespace and Puppet 5 support
+>   - tests/init.pp => Removed per modern Puppet best practice
+>
+> None of the actual Puppet code has been modified from the original and the
+> original work is copyright Steffen Zieger.
+>
+> New modifications are copyright Onyx Point, Inc.
+>
+----
+
 Manage timezone settings via Puppet
 
 ### Supported Puppet versions
