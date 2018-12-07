@@ -1,5 +1,40 @@
 # puppet-timezone [![Build Status](https://secure.travis-ci.org/saz/puppet-timezone.png)](http://travis-ci.org/saz/puppet-timezone)
 
+----
+
+THIS IS A FORK OF THE MODULE AND WILL REVERT TO THE ORIGINAL MODULE ONCE THE
+SIMP PACKAGING SYSTEM HAS BEEN UPDATED.
+
+The fork includes the following minor changes that are related to publishing
+and maintenance:
+ - .travis.yml   => Modified to work with the SIMP publishing process
+ - CHANGELOG     => Added to work with the SIMP RPM building
+ - Gemfile       => updated to require gems that work with beaker 3 and 4 and
+                 allow testing for puppet4/5 and 6.
+ - README.md     => These modifications
+ - Rakefile      => Modified with the standard SIMP rake tasks
+ - metadata.json => Modified namespace and Puppet 5 support
+ - tests/init.pp => Removed per modern Puppet best practice
+ - manifests/init.pp =>  Updated file resource for localtime_file to use
+                 target attribute and the added this file resource as
+                 as a requirement for running timedate command so the
+                 file would be in the proper format.
+ - spec/classes/timezone_spec.rb
+                 => updated tests to reflect changes in manifests/init.pp
+ - spec/acceptence/timezone_spec.rb
+                 => added test,
+ - spec/acceptence/nodeset/*.yml
+                 => updated the nodesets so they work with puppet 5 and added
+                 a nodeset, centos-6.yml
+ - data/os/RedHat/7.yml => updated the file name for timezone definitions to
+                 make puppet run idempotent because centos 7 use a relative path.
+
+A pull request has been submitted forthe puppet code that was modified.
+ Original work is copyright Steffen Zieger.
+
+ New modifications are copyright Onyx Point, Inc.
+
+
 Manage timezone settings via Puppet
 
 ### Supported Puppet versions

@@ -1,60 +1,32 @@
-source ENV['GEM_SOURCE'] || 'https://rubygems.org'
+# ------------------------------------------------------------------------------
+# NOTE: SIMP Puppet rake tasks support ruby 2.1.9
+# ------------------------------------------------------------------------------
+gem_sources = ENV.fetch('GEM_SERVERS','https://rubygems.org').split(/[, ]+/)
 
-def location_for(place, fake_version = nil)
-  if place =~ /^(git[:@][^#]*)#(.*)/
-    [fake_version, { git: Regexp.last_match(1), branch: Regexp.last_match(2), require: false }].compact
-  elsif place =~ /^file:\/\/(.*)/
-    ['>= 0', { path: File.expand_path(Regexp.last_match(1)), require: false }]
-  else
-    [place, { require: false }]
-  end
-end
+gem_sources.each { |gem_source| source gem_source }
 
 group :test do
-  gem 'puppetlabs_spec_helper',                                     require: false
-  gem 'rspec-puppet',                                               require: false
-  gem 'rspec-puppet-facts',                                         require: false
-  gem 'rspec-puppet-utils',                                         require: false
-  gem 'puppet-lint-absolute_classname-check',                       require: false
-  gem 'puppet-lint-leading_zero-check',                             require: false
-  gem 'puppet-lint-trailing_comma-check',                           require: false
-  gem 'puppet-lint-version_comparison-check',                       require: false
-  gem 'puppet-lint-classes_and_types_beginning_with_digits-check',  require: false
-  gem 'puppet-lint-unquoted_string-check',                          require: false
-  gem 'puppet-lint-variable_contains_upcase',                       require: false
-  gem 'metadata-json-lint',                                         require: false
-  gem 'puppet-blacksmith',                                          require: false
-  gem 'voxpupuli-release',                                          require: false, git: 'https://github.com/voxpupuli/voxpupuli-release-gem.git'
-  gem 'rubocop-rspec', '~> 1.5',                                    require: false if RUBY_VERSION >= '2.2.0'
-  gem 'json_pure', '<= 2.0.1',                                      require: false if RUBY_VERSION < '2.0.0'
-  gem 'rspec-its',                                                  require: false
+  gem 'rake'
+  gem 'puppet', ENV.fetch('PUPPET_VERSION',  '~> 5.5')
+  gem 'rspec'
+  gem 'rspec-puppet'
+  gem 'hiera-puppet-helper'
+  gem 'puppetlabs_spec_helper'
+  gem 'metadata-json-lint'
+  gem 'puppet-strings'
+  gem 'puppet-lint-empty_string-check',   :require => false
+  gem 'puppet-lint-trailing_comma-check', :require => false
+  gem 'simp-rspec-puppet-facts', ENV.fetch('SIMP_RSPEC_PUPPET_FACTS_VERSION', '~> 2.2')
+  gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '~> 5.6')
 end
 
 group :development do
-  gem 'travis',       require: false
-  gem 'travis-lint',  require: false
-  gem 'guard-rake',   require: false
+  gem 'pry'
+  gem 'pry-doc'
 end
 
 group :system_tests do
-  if (beaker_version = ENV['BEAKER_VERSION'])
-    gem 'beaker', *location_for(beaker_version)
-  end
-  if (beaker_rspec_version = ENV['BEAKER_RSPEC_VERSION'])
-    gem 'beaker-rspec', *location_for(beaker_rspec_version)
-  else
-    gem 'beaker-rspec', require: false
-  end
-  gem 'beaker-puppet_install_helper', require: false
+  gem 'beaker'
+  gem 'beaker-rspec'
+  gem 'simp-beaker-helpers', ENV.fetch('SIMP_BEAKER_HELPERS_VERSION', '>= 1.13.0')
 end
-
-if (facterversion = ENV['FACTER_GEM_VERSION'])
-  gem 'facter', facterversion.to_s, require: false, groups: [:test]
-else
-  gem 'facter', require: false, groups: [:test]
-end
-
-ENV['PUPPET_VERSION'].nil? ? puppetversion = '~> 4.0' : puppetversion = ENV['PUPPET_VERSION'].to_s
-gem 'puppet', puppetversion, require: false, groups: [:test]
-
-# vim: syntax=ruby
