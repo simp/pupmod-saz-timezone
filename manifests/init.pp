@@ -55,7 +55,7 @@ class timezone (
       } else {
         $package_ensure = 'present'
       }
-      $localtime_ensure = 'file'
+      $localtime_ensure = 'link'
       $timezone_ensure = 'file'
     }
     /(absent)/: {
@@ -109,6 +109,7 @@ class timezone (
         command     => sprintf($timezone_update, $timezone),
         subscribe   => File[$timezone_file],
         refreshonly => true,
+        require     => File[$localtime_file],
         path        => '/usr/bin:/usr/sbin:/bin:/sbin',
       }
     }
@@ -118,6 +119,7 @@ class timezone (
       exec { 'update_timezone':
         command => sprintf($timezone_update, $timezone),
         unless  => sprintf($unless_cmd, $timezone),
+        require => File[$localtime_file],
         path    => '/usr/bin:/usr/sbin:/bin:/sbin',
       }
     }
@@ -144,8 +146,7 @@ class timezone (
 
   file { $localtime_file:
     ensure => $localtime_ensure,
-    source => "file://${zoneinfo_dir}/${timezone}",
-    links  => follow,
+    target => "${zoneinfo_dir}/${timezone}",
     notify => $notify_services,
   }
 }
