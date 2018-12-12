@@ -7,15 +7,16 @@
 >
 > The fork includes the following minor changes that are related to publishing
 > and maintenance:
->   - .travis.yml   => Modified to work with the SIMP publishing process
->   - CHANGELOG     => Added to work with the SIMP RPM building
->   - README.md     => These modifications
->   - Rakefile      => Modified with the standard SIMP rake tasks
->   - metadata.json => Modified namespace and Puppet 5 support
->   - tests/init.pp => Removed per modern Puppet best practice
->
-> None of the actual Puppet code has been modified from the original and the
-> original work is copyright Steffen Zieger.
+>   - .travis.yml       => Modified to work with the SIMP publishing process
+>   - CHANGELOG         => Added to work with the SIMP RPM building
+>   - README.md         => These modifications
+>   - Rakefile          => Modified with the standard SIMP rake tasks
+>   - metadata.json     => Modified namespace and Puppet 5 support
+>   - tests/init.pp     => Removed per modern Puppet best practice
+>   - manifests/init.pp => updated with latest fixes and added a require statement
+>                          for /etc/localtime when running timezone update to ensure
+>                          /etc/localtime is a link.
+>   - spec/support/*    => tests for the changes in manifests/init.pp
 >
 > New modifications are copyright Onyx Point, Inc.
 >
